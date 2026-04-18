@@ -57,11 +57,12 @@ export function AdminLayout({ children, userName }: AdminLayoutProps) {
       <aside className="hidden md:flex md:w-64 flex-col bg-midnight-soft border-r border-midnight-elev fixed inset-y-0 left-0 z-30">
         <div className="p-6 border-b border-midnight-elev">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-terracotta rounded-[var(--radius-sm)] flex items-center justify-center">
-              <span className="text-white font-display font-bold text-lg">W</span>
-            </div>
+            <svg className="w-9 h-9 text-terracotta" viewBox="0 0 48 50" fill="currentColor">
+              <path d="M4 8 L18 0 L18 20 L32 10 L32 30 L18 40 L18 20 L4 28 Z" opacity="0.5"/>
+              <path d="M16 20 L30 12 L30 32 L44 22 L44 42 L30 50 L30 32 L16 40 Z"/>
+            </svg>
             <div>
-              <span className="font-display font-semibold text-lg text-white block leading-tight">WINVA</span>
+              <span className="font-body font-bold text-lg text-white block leading-tight tracking-wide">WINVA</span>
               <span className="text-xs text-terracotta font-medium">Administration</span>
             </div>
           </div>
