@@ -13,7 +13,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       <div className="hidden lg:flex lg:w-1/2 bg-midnight relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-midnight via-midnight-soft to-midnight-elev" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          <Logo className="[&_div]:bg-terracotta [&_span:last-child]:text-white" />
+          <Logo className="[&_span]:text-white" />
           <div className="space-y-6">
             <h2 className="font-display text-4xl text-white leading-tight">
               Capital privé pour <br />
