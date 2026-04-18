@@ -26,7 +26,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-semibold text-midnight">
+        <h1 className="font-display text-2xl sm:text-3xl font-semibold text-midnight">
           Tableau de bord
         </h1>
         <p className="text-text-soft mt-1">

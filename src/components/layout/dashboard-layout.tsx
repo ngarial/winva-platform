@@ -109,28 +109,28 @@ export function DashboardLayout({ children, userName }: DashboardLayoutProps) {
         </header>
 
         {/* Mobile nav */}
-        <nav className="md:hidden flex border-b border-gray-100 bg-white overflow-x-auto">
+        <nav className="md:hidden flex border-b border-gray-100 bg-white overflow-x-auto scrollbar-hide">
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2 px-4 py-3 text-xs font-medium whitespace-nowrap border-b-2 transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-3 text-[0.7rem] font-medium whitespace-nowrap border-b-2 transition-colors ${
                   isActive
                     ? "border-terracotta text-terracotta"
                     : "border-transparent text-text-soft hover:text-text"
                 }`}
               >
                 {item.icon}
-                {item.label}
+                <span className="hidden sm:inline">{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
         {/* Page content */}
-        <main className="p-6 lg:p-8">{children}</main>
+        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );
