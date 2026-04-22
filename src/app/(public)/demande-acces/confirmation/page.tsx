@@ -1,12 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import Link from "next/link";
 
-export default function ConfirmationPage() {
+export default async function ConfirmationPage() {
+  const t = await getTranslations("accessRequest");
   return (
-    <AuthLayout
-      title="Demande envoyée"
-      subtitle="Nous avons bien reçu votre demande."
-    >
+    <AuthLayout title={t("confirmationTitle")} subtitle={t("confirmationSubtitle")}>
       <div className="space-y-6">
         <div className="bg-white rounded-[var(--radius-lg)] border border-gray-100 p-6 space-y-4">
           <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto">
@@ -15,20 +14,19 @@ export default function ConfirmationPage() {
             </svg>
           </div>
           <h3 className="text-center font-display text-lg font-semibold text-midnight">
-            Demande d&apos;accès enregistrée
+            {t("confirmationHeading")}
           </h3>
-          <p className="text-center text-text-soft text-sm leading-relaxed">
-            Votre demande sera examinée par notre équipe sous <strong>48 heures</strong>.
-            Si votre profil est retenu, vous recevrez un email d&apos;invitation
-            avec un lien pour créer votre compte.
-          </p>
+          <p
+            className="text-center text-text-soft text-sm leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: t.raw("confirmationBody") as string }}
+          />
           <div className="bg-ivory rounded-[var(--radius-md)] p-4 text-sm text-text-soft">
-            <p className="font-medium text-text mb-2">Processus d&apos;admission :</p>
+            <p className="font-medium text-text mb-2">{t("processTitle")}</p>
             <ul className="space-y-1">
-              <li>1. Examen de votre profil investisseur</li>
-              <li>2. Validation par l&apos;équipe WINVA</li>
-              <li>3. Envoi de votre lien d&apos;invitation</li>
-              <li>4. Création de votre compte et accès au deal flow</li>
+              <li>{t("processStep1")}</li>
+              <li>{t("processStep2")}</li>
+              <li>{t("processStep3")}</li>
+              <li>{t("processStep4")}</li>
             </ul>
           </div>
         </div>
@@ -38,7 +36,7 @@ export default function ConfirmationPage() {
             href="/login"
             className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
           >
-            Déjà un compte ? Se connecter
+            {t("alreadyAccount")}
           </Link>
         </p>
       </div>

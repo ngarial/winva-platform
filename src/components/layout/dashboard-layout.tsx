@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Logo } from "./logo";
+import { LangSwitcher } from "./lang-switcher";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -12,7 +14,7 @@ interface DashboardLayoutProps {
 const navItems = [
   {
     href: "/dashboard",
-    label: "Dashboard",
+    labelKey: "dashboard",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -21,7 +23,7 @@ const navItems = [
   },
   {
     href: "/deals",
-    label: "Deals",
+    labelKey: "deals",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -30,7 +32,7 @@ const navItems = [
   },
   {
     href: "/interests",
-    label: "Mes intérêts",
+    labelKey: "interests",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -39,17 +41,20 @@ const navItems = [
   },
   {
     href: "/profile",
-    label: "Mon profil",
+    labelKey: "profile",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     ),
   },
-];
+] as const;
 
 export function DashboardLayout({ children, userName }: DashboardLayoutProps) {
   const pathname = usePathname();
+  const t = useTranslations("dashboard.nav");
+  const tl = useTranslations("dashboardLayout");
+  const year = new Date().getFullYear();
 
   return (
     <div className="min-h-screen bg-ivory flex">
@@ -72,15 +77,13 @@ export function DashboardLayout({ children, userName }: DashboardLayoutProps) {
                 }`}
               >
                 {item.icon}
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             );
           })}
         </nav>
         <div className="p-4 border-t border-gray-100">
-          <p className="text-xs text-gray-400 text-center">
-            &copy; {new Date().getFullYear()} WINVA — DARHAN
-          </p>
+          <p className="text-xs text-gray-400 text-center">{tl("footer", { year })}</p>
         </div>
       </aside>
 
@@ -94,17 +97,20 @@ export function DashboardLayout({ children, userName }: DashboardLayoutProps) {
             </div>
             <div className="hidden md:block">
               <h2 className="text-sm text-text-soft">
-                Bonjour, <span className="font-medium text-text">{userName}</span>
+                {tl("greeting")} <span className="font-medium text-text">{userName}</span>
               </h2>
             </div>
-            <form action="/auth/signout" method="post">
-              <button
-                type="submit"
-                className="text-sm text-text-soft hover:text-terracotta transition-colors cursor-pointer"
-              >
-                Déconnexion
-              </button>
-            </form>
+            <div className="flex items-center gap-4">
+              <LangSwitcher />
+              <form action="/auth/signout" method="post">
+                <button
+                  type="submit"
+                  className="text-sm text-text-soft hover:text-terracotta transition-colors cursor-pointer"
+                >
+                  {tl("signOut")}
+                </button>
+              </form>
+            </div>
           </div>
         </header>
 
@@ -123,7 +129,7 @@ export function DashboardLayout({ children, userName }: DashboardLayoutProps) {
                 }`}
               >
                 {item.icon}
-                <span className="hidden sm:inline">{item.label}</span>
+                <span className="hidden sm:inline">{t(item.labelKey)}</span>
               </Link>
             );
           })}

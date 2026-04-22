@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,8 @@ import { Alert } from "@/components/ui/alert";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
+  const t = useTranslations("auth.login");
+  const tc = useTranslations("common");
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +33,7 @@ export default function LoginPage() {
     if (error) {
       setError(
         error.message === "Invalid login credentials"
-          ? "Email ou mot de passe incorrect."
+          ? t("invalidCredentials")
           : error.message
       );
       setLoading(false);
@@ -42,18 +45,15 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthLayout
-      title="Connexion"
-      subtitle="Accédez à votre espace investisseur."
-    >
+    <AuthLayout title={t("title")} subtitle={t("subtitle")}>
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && <Alert variant="error">{error}</Alert>}
 
         <Input
           id="email"
-          label="Email"
+          label={t("emailLabel")}
           type="email"
-          placeholder="votre@email.com"
+          placeholder={tc("emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -62,7 +62,7 @@ export default function LoginPage() {
 
         <Input
           id="password"
-          label="Mot de passe"
+          label={t("passwordLabel")}
           type="password"
           placeholder="••••••••"
           value={password}
@@ -76,22 +76,22 @@ export default function LoginPage() {
             href="/reset-password"
             className="text-sm text-terracotta hover:text-terracotta-dark transition-colors"
           >
-            Mot de passe oublié ?
+            {t("forgotPassword")}
           </Link>
         </div>
 
         <Button type="submit" loading={loading} className="w-full">
-          Se connecter
+          {t("submit")}
         </Button>
       </form>
 
       <p className="text-center text-sm text-text-soft">
-        Pas encore de compte ?{" "}
+        {t("noAccount")}{" "}
         <Link
           href="/register"
           className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
         >
-          Créer un compte
+          {t("createAccount")}
         </Link>
       </p>
     </AuthLayout>

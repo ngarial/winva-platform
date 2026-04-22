@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 
 interface DealCardProps {
@@ -13,10 +16,10 @@ interface DealCardProps {
   description: string;
 }
 
-const dealTypeBadge: Record<string, { label: string; variant: "terracotta" | "midnight" | "default" }> = {
-  equity: { label: "Equity", variant: "terracotta" },
-  mezzanine: { label: "Mezzanine", variant: "midnight" },
-  debt: { label: "Dette", variant: "default" },
+const dealTypeBadge: Record<string, { labelKey: "equity" | "mezzanine" | "debt"; variant: "terracotta" | "midnight" | "default" }> = {
+  equity: { labelKey: "equity", variant: "terracotta" },
+  mezzanine: { labelKey: "mezzanine", variant: "midnight" },
+  debt: { labelKey: "debt", variant: "default" },
 };
 
 export function DealCard({
@@ -30,7 +33,9 @@ export function DealCard({
   stage,
   description,
 }: DealCardProps) {
+  const t = useTranslations("deals");
   const typeInfo = dealTypeBadge[dealType] || dealTypeBadge.equity;
+  const typeLabel = t(`badges.${typeInfo.labelKey}`);
 
   return (
     <Link
@@ -43,7 +48,7 @@ export function DealCard({
       <div className="p-6 space-y-4">
         {/* Badges */}
         <div className="flex flex-wrap gap-2">
-          <Badge variant={typeInfo.variant}>{typeInfo.label}</Badge>
+          <Badge variant={typeInfo.variant}>{typeLabel}</Badge>
           <Badge variant="outline">{sector}</Badge>
           {stage && <Badge variant="default">{stage}</Badge>}
         </div>
@@ -61,18 +66,18 @@ export function DealCard({
         {/* Metrics */}
         <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-50">
           <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wider">Pays</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wider">{t("countryLabel")}</p>
             <p className="text-sm font-medium text-text mt-0.5">{country}</p>
           </div>
           {revenueRange && (
             <div>
-              <p className="text-xs text-gray-400 uppercase tracking-wider">CA indicatif</p>
+              <p className="text-xs text-gray-400 uppercase tracking-wider">{t("revenueLabel")}</p>
               <p className="text-sm font-medium text-text mt-0.5">{revenueRange}</p>
             </div>
           )}
           {ticketSize && (
             <div>
-              <p className="text-xs text-gray-400 uppercase tracking-wider">Ticket</p>
+              <p className="text-xs text-gray-400 uppercase tracking-wider">{t("ticketLabel")}</p>
               <p className="text-sm font-medium text-terracotta mt-0.5">{ticketSize}</p>
             </div>
           )}
@@ -80,7 +85,7 @@ export function DealCard({
 
         {/* CTA */}
         <div className="flex items-center text-sm text-terracotta font-medium pt-2">
-          Voir le détail
+          {t("viewDetail")}
           <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
@@ -13,6 +14,7 @@ interface NdaModalProps {
 }
 
 export function NdaModal({ open, onClose, onAccept, dealTitle }: NdaModalProps) {
+  const t = useTranslations("nda");
   const [loading, setLoading] = useState(false);
   const [kycType, setKycType] = useState("");
   const [kycFile, setKycFile] = useState<File | null>(null);
@@ -22,73 +24,71 @@ export function NdaModal({ open, onClose, onAccept, dealTitle }: NdaModalProps) 
   async function handleAccept() {
     setError("");
     if (!kycType) {
-      setError("Veuillez sélectionner le type de document.");
+      setError(t("errorType"));
       return;
     }
     if (!kycFile) {
-      setError("Veuillez joindre votre document d'identité.");
+      setError(t("errorFile"));
       return;
     }
     setLoading(true);
     try {
       await onAccept(kycFile, kycType);
     } catch {
-      setError("Une erreur est survenue. Veuillez réessayer.");
+      setError(t("errorGeneric"));
     }
     setLoading(false);
   }
 
   return (
-    <Modal open={open} onClose={onClose} title="Accord de confidentialité">
+    <Modal open={open} onClose={onClose} title={t("title")}>
       <div className="space-y-6">
         <div className="bg-ivory-warm rounded-[var(--radius-md)] p-4">
           <p className="text-sm text-text-soft leading-relaxed">
-            Pour accéder aux informations détaillées du deal{" "}
-            <strong className="text-text">&ldquo;{dealTitle}&rdquo;</strong>, vous devez accepter
-            l&apos;accord de confidentialité (NDA) et fournir un justificatif d&apos;identité.
+            {t("introLead")}{" "}
+            <strong className="text-text">&ldquo;{dealTitle}&rdquo;</strong>
+            {t("introTail")}
           </p>
         </div>
 
         <div className="space-y-4 text-sm text-text leading-relaxed">
-          <p>En cliquant sur &ldquo;J&apos;accepte&rdquo;, vous vous engagez à :</p>
+          <p>{t("commitmentsTitle")}</p>
           <ul className="space-y-2 ml-4">
             <li className="flex gap-2">
               <span className="text-terracotta font-bold">1.</span>
-              Ne pas divulguer les informations confidentielles reçues.
+              {t("commitment1")}
             </li>
             <li className="flex gap-2">
               <span className="text-terracotta font-bold">2.</span>
-              Utiliser ces informations uniquement pour évaluer l&apos;opportunité.
+              {t("commitment2")}
             </li>
             <li className="flex gap-2">
               <span className="text-terracotta font-bold">3.</span>
-              Ne pas contacter directement la société cible sans accord de WINVA.
+              {t("commitment3")}
             </li>
             <li className="flex gap-2">
               <span className="text-terracotta font-bold">4.</span>
-              Restituer ou détruire tous les documents confidentiels à la demande.
+              {t("commitment4")}
             </li>
           </ul>
         </div>
 
         {/* KYC Section */}
         <div className="border-t border-gray-100 pt-4 space-y-3">
-          <h3 className="text-sm font-semibold text-midnight">Justificatif d&apos;identité (KYC)</h3>
-          <p className="text-xs text-text-soft">
-            Personne physique : CNI ou Passeport. Personne morale : RCCM ou pièce d&apos;identité du représentant légal.
-          </p>
+          <h3 className="text-sm font-semibold text-midnight">{t("kycTitle")}</h3>
+          <p className="text-xs text-text-soft">{t("kycHelp")}</p>
 
           <Select
             id="kyc_type"
-            placeholder="Type de document..."
+            placeholder={t("kycTypePlaceholder")}
             value={kycType}
             onChange={(e) => setKycType(e.target.value)}
             options={[
-              { value: "cni", label: "Carte nationale d'identité (CNI)" },
-              { value: "passeport", label: "Passeport" },
-              { value: "rccm", label: "RCCM (Registre du Commerce)" },
-              { value: "statuts", label: "Statuts de la société" },
-              { value: "autre", label: "Autre justificatif" },
+              { value: "cni", label: t("kycTypes.cni") },
+              { value: "passeport", label: t("kycTypes.passport") },
+              { value: "rccm", label: t("kycTypes.rccm") },
+              { value: "statuts", label: t("kycTypes.statutes") },
+              { value: "autre", label: t("kycTypes.other") },
             ]}
           />
 
@@ -111,25 +111,21 @@ export function NdaModal({ open, onClose, onAccept, dealTitle }: NdaModalProps) 
             {kycFile ? (
               <p className="text-sm text-success font-medium">{kycFile.name}</p>
             ) : (
-              <p className="text-sm text-gray-400">
-                Cliquez pour joindre votre document (PDF, JPG, PNG)
-              </p>
+              <p className="text-sm text-gray-400">{t("fileHint")}</p>
             )}
           </div>
         </div>
 
         {error && <p className="text-sm text-error">{error}</p>}
 
-        <p className="text-xs text-gray-400">
-          Votre acceptation et votre document seront horodatés et enregistrés.
-        </p>
+        <p className="text-xs text-gray-400">{t("disclaimer")}</p>
 
         <div className="flex gap-3 pt-2">
           <Button variant="ghost" onClick={onClose} className="flex-1">
-            Annuler
+            {t("cancel")}
           </Button>
           <Button onClick={handleAccept} loading={loading} className="flex-1">
-            J&apos;accepte le NDA
+            {t("accept")}
           </Button>
         </div>
       </div>

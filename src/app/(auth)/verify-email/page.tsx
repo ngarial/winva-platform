@@ -1,12 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import Link from "next/link";
 
-export default function VerifyEmailPage() {
+export default async function VerifyEmailPage() {
+  const t = await getTranslations("auth.verifyEmail");
   return (
-    <AuthLayout
-      title="Vérifiez votre email"
-      subtitle="Un lien de confirmation a été envoyé."
-    >
+    <AuthLayout title={t("title")} subtitle={t("subtitle")}>
       <div className="space-y-6">
         <div className="bg-white rounded-[var(--radius-lg)] border border-gray-100 p-6 space-y-4">
           <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto">
@@ -14,13 +13,8 @@ export default function VerifyEmailPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
-          <p className="text-center text-text-soft">
-            Consultez votre boîte de réception et cliquez sur le lien
-            de confirmation pour activer votre compte.
-          </p>
-          <p className="text-center text-sm text-gray-400">
-            Si vous ne trouvez pas l&apos;email, vérifiez vos spams.
-          </p>
+          <p className="text-center text-text-soft">{t("body")}</p>
+          <p className="text-center text-sm text-gray-400">{t("checkSpam")}</p>
         </div>
 
         <p className="text-center text-sm text-text-soft">
@@ -28,7 +22,7 @@ export default function VerifyEmailPage() {
             href="/login"
             className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
           >
-            Retour à la connexion
+            {t("backToLogin")}
           </Link>
         </p>
       </div>

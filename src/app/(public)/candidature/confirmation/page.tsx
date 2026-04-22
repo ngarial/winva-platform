@@ -1,12 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import Link from "next/link";
 
-export default function ConfirmationPage() {
+export default async function ConfirmationPage() {
+  const t = await getTranslations("application");
   return (
-    <AuthLayout
-      title="Candidature envoyée"
-      subtitle="Merci pour votre soumission."
-    >
+    <AuthLayout title={t("confirmationTitle")} subtitle={t("confirmationSubtitle")}>
       <div className="space-y-6">
         <div className="bg-white rounded-[var(--radius-lg)] border border-gray-100 p-6 space-y-4">
           <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto">
@@ -15,19 +14,18 @@ export default function ConfirmationPage() {
             </svg>
           </div>
           <h3 className="text-center font-display text-lg font-semibold text-midnight">
-            Votre candidature a bien été reçue
+            {t("confirmationHeading")}
           </h3>
           <p className="text-center text-text-soft text-sm leading-relaxed">
-            L&apos;équipe WINVA examinera votre dossier dans les meilleurs délais.
-            Vous recevrez un email de confirmation à l&apos;adresse indiquée.
+            {t("confirmationBody")}
           </p>
           <div className="bg-ivory rounded-[var(--radius-md)] p-4 text-sm text-text-soft">
-            <p className="font-medium text-text mb-2">Prochaines étapes :</p>
+            <p className="font-medium text-text mb-2">{t("nextStepsTitle")}</p>
             <ul className="space-y-1">
-              <li>1. Analyse de votre dossier par notre équipe</li>
-              <li>2. Entretien préliminaire si éligible</li>
-              <li>3. Préparation au financement</li>
-              <li>4. Mise en relation avec nos investisseurs</li>
+              <li>{t("nextStep1")}</li>
+              <li>{t("nextStep2")}</li>
+              <li>{t("nextStep3")}</li>
+              <li>{t("nextStep4")}</li>
             </ul>
           </div>
         </div>
@@ -37,14 +35,14 @@ export default function ConfirmationPage() {
             href="/login"
             className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
           >
-            Se connecter
+            {t("signIn")}
           </Link>
           {" · "}
           <Link
             href="/register"
             className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
           >
-            Créer un compte
+            {t("createAccount")}
           </Link>
         </p>
       </div>

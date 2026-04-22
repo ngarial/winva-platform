@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { DealCard } from "@/components/deals/deal-card";
 import { DealFilters } from "@/components/deals/deal-filters";
 import { Card } from "@/components/ui/card";
@@ -24,6 +25,7 @@ interface DealsPageClientProps {
 }
 
 export function DealsPageClient({ deals, sectors, countries }: DealsPageClientProps) {
+  const t = useTranslations("deals");
   const [filters, setFilters] = useState({
     sector: "",
     country: "",
@@ -54,10 +56,12 @@ export function DealsPageClient({ deals, sectors, countries }: DealsPageClientPr
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-3xl font-semibold text-midnight">
-          Opportunités d&apos;investissement
+          {t("listTitle")}
         </h1>
         <p className="text-text-soft mt-1">
-          {deals.length} deal{deals.length > 1 ? "s" : ""} actif{deals.length > 1 ? "s" : ""} disponible{deals.length > 1 ? "s" : ""}
+          {deals.length > 1
+            ? t("countOther", { count: deals.length })
+            : t("countOne", { count: deals.length })}
         </p>
       </div>
 
@@ -65,7 +69,7 @@ export function DealsPageClient({ deals, sectors, countries }: DealsPageClientPr
       <div className="space-y-3">
         <input
           type="text"
-          placeholder="Rechercher un deal..."
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full max-w-md px-4 py-2.5 rounded-[var(--radius-md)] border border-gray-200 bg-white text-text placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-terracotta/30 focus:border-terracotta"
@@ -98,7 +102,7 @@ export function DealsPageClient({ deals, sectors, countries }: DealsPageClientPr
         </div>
       ) : (
         <Card className="text-center py-12">
-          <p className="text-text-soft">Aucun deal ne correspond à vos critères.</p>
+          <p className="text-text-soft">{t("noMatch")}</p>
           {(filters.sector || filters.country || filters.dealType || search) && (
             <button
               onClick={() => {
@@ -107,7 +111,7 @@ export function DealsPageClient({ deals, sectors, countries }: DealsPageClientPr
               }}
               className="text-sm text-terracotta hover:text-terracotta-dark font-medium mt-2 cursor-pointer"
             >
-              Réinitialiser les filtres
+              {t("resetFilters")}
             </button>
           )}
         </Card>

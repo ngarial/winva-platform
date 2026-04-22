@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { Card } from "@/components/ui/card";
 import { DealCard } from "@/components/deals/deal-card";
 import Link from "next/link";
@@ -9,6 +10,8 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  const t = await getTranslations("dashboard");
 
   // Fetch stats
   const [dealsRes, eoisRes, ndasRes, recentDealsRes] = await Promise.all([
@@ -27,29 +30,27 @@ export default async function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-2xl sm:text-3xl font-semibold text-midnight">
-          Tableau de bord
+          {t("title")}
         </h1>
-        <p className="text-text-soft mt-1">
-          Vue d&apos;ensemble de votre activité sur WINVA.
-        </p>
+        <p className="text-text-soft mt-1">{t("subtitle")}</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <Card>
-          <p className="text-sm text-text-soft">Deals actifs</p>
+          <p className="text-sm text-text-soft">{t("activeDeals")}</p>
           <p className="text-3xl font-bold text-terracotta mt-1">{dealsCount}</p>
-          <p className="text-xs text-gray-400 mt-1">Opportunités disponibles</p>
+          <p className="text-xs text-gray-400 mt-1">{t("activeDealsHint")}</p>
         </Card>
         <Card>
-          <p className="text-sm text-text-soft">Mes intérêts</p>
+          <p className="text-sm text-text-soft">{t("myInterests")}</p>
           <p className="text-3xl font-bold text-terracotta mt-1">{eoisCount}</p>
-          <p className="text-xs text-gray-400 mt-1">Expressions envoyées</p>
+          <p className="text-xs text-gray-400 mt-1">{t("myInterestsHint")}</p>
         </Card>
         <Card>
-          <p className="text-sm text-text-soft">NDA signés</p>
+          <p className="text-sm text-text-soft">{t("signedNdas")}</p>
           <p className="text-3xl font-bold text-terracotta mt-1">{ndasCount}</p>
-          <p className="text-xs text-gray-400 mt-1">Accès dataroom débloqués</p>
+          <p className="text-xs text-gray-400 mt-1">{t("signedNdasHint")}</p>
         </Card>
       </div>
 
@@ -57,13 +58,13 @@ export default async function DashboardPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-xl font-semibold text-midnight">
-            Deals récents
+            {t("recentDeals")}
           </h2>
           <Link
             href="/deals"
             className="text-sm text-terracotta hover:text-terracotta-dark font-medium transition-colors"
           >
-            Voir tous les deals &rarr;
+            {t("viewAllDeals")}
           </Link>
         </div>
 
@@ -86,10 +87,8 @@ export default async function DashboardPage() {
           </div>
         ) : (
           <Card className="text-center py-12">
-            <p className="text-text-soft">Aucun deal actif pour le moment.</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Les opportunités apparaîtront ici dès qu&apos;elles seront publiées.
-            </p>
+            <p className="text-text-soft">{t("noActiveDeals")}</p>
+            <p className="text-sm text-gray-400 mt-1">{t("noActiveDealsHint")}</p>
           </Card>
         )}
       </div>

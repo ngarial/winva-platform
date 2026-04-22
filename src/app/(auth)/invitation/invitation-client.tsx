@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { createClient } from "@/lib/supabase/client";
 import { verifyInvitation, createInvitedAccount } from "./actions";
 
 export function InvitationClient() {
+  const t = useTranslations("auth.invitation");
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
@@ -25,7 +27,7 @@ export function InvitationClient() {
   useEffect(() => {
     async function check() {
       if (!token) {
-        setError("Lien d'invitation invalide.");
+        setError(t("invalidLink"));
         setLoading(false);
         return;
       }
@@ -35,19 +37,19 @@ export function InvitationClient() {
         setFullName(result.invitation.access_requests?.full_name || "");
         setValid(true);
       } else {
-        setError("Ce lien d'invitation est invalide ou a expiré.");
+        setError(t("expiredLink"));
       }
       setLoading(false);
     }
     check();
-  }, [token]);
+  }, [token, t]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
     if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      setError(t("passwordMinError"));
       return;
     }
 
@@ -66,14 +68,14 @@ export function InvitationClient() {
       router.push("/dashboard");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      setError(err instanceof Error ? err.message : t("genericError"));
     }
     setSubmitting(false);
   }
 
   if (loading) {
     return (
-      <AuthLayout title="Vérification..." subtitle="Validation de votre invitation.">
+      <AuthLayout title={t("verifying")} subtitle={t("verifyingSubtitle")}>
         <div className="flex justify-center py-8">
           <svg className="animate-spin h-8 w-8 text-terracotta" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -86,23 +88,20 @@ export function InvitationClient() {
 
   if (!valid) {
     return (
-      <AuthLayout title="Invitation invalide" subtitle="">
-        <Alert variant="error">{error || "Ce lien n'est plus valide."}</Alert>
+      <AuthLayout title={t("invalidTitle")} subtitle="">
+        <Alert variant="error">{error || t("noLongerValid")}</Alert>
       </AuthLayout>
     );
   }
 
   return (
-    <AuthLayout
-      title="Créer votre compte"
-      subtitle={`Bienvenue ${fullName}, finalisez votre accès à WINVA.`}
-    >
+    <AuthLayout title={t("title")} subtitle={t("subtitle", { name: fullName })}>
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && <Alert variant="error">{error}</Alert>}
 
         <Input
           id="email"
-          label="Email"
+          label={t("emailLabel")}
           type="email"
           value={email}
           disabled
@@ -111,9 +110,9 @@ export function InvitationClient() {
 
         <Input
           id="password"
-          label="Choisissez un mot de passe"
+          label={t("passwordLabel")}
           type="password"
-          placeholder="Minimum 8 caractères"
+          placeholder={t("passwordPlaceholder")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -122,7 +121,7 @@ export function InvitationClient() {
         />
 
         <Button type="submit" loading={submitting} className="w-full">
-          Créer mon compte
+          {t("submit")}
         </Button>
       </form>
     </AuthLayout>

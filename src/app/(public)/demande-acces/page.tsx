@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -9,30 +10,35 @@ import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import { submitAccessRequest } from "./actions";
 
-const SECTORS = [
-  "Agriculture / Agro",
-  "Industrie / BTP",
-  "Services",
-  "Technologie",
-  "Commerce",
-  "Tous secteurs",
-];
+const SECTOR_KEYS = ["agro", "industry", "services", "tech", "commerce", "all"] as const;
+type SectorKey = (typeof SECTOR_KEYS)[number];
+
+// Canonical sector values (stored in DB). These remain in French for backend consistency.
+const SECTOR_VALUES: Record<SectorKey, string> = {
+  agro: "Agriculture / Agro",
+  industry: "Industrie / BTP",
+  services: "Services",
+  tech: "Technologie",
+  commerce: "Commerce",
+  all: "Tous secteurs",
+};
 
 export default function DemandeAccesPage() {
+  const t = useTranslations("accessRequest");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
   function toggleSector(sector: string) {
-    if (sector === "Tous secteurs") {
-      setSelectedSectors(selectedSectors.includes("Tous secteurs") ? [] : ["Tous secteurs"]);
+    if (sector === SECTOR_VALUES.all) {
+      setSelectedSectors(selectedSectors.includes(SECTOR_VALUES.all) ? [] : [SECTOR_VALUES.all]);
       return;
     }
     setSelectedSectors((prev) =>
       prev.includes(sector)
-        ? prev.filter((s) => s !== sector && s !== "Tous secteurs")
-        : [...prev.filter((s) => s !== "Tous secteurs"), sector]
+        ? prev.filter((s) => s !== sector && s !== SECTOR_VALUES.all)
+        : [...prev.filter((s) => s !== SECTOR_VALUES.all), sector]
     );
   }
 
@@ -43,71 +49,70 @@ export default function DemandeAccesPage() {
 
     try {
       const formData = new FormData(e.currentTarget);
-      // Add sectors manually since they're checkboxes managed in state
       selectedSectors.forEach((s) => formData.append("sectors", s));
       await submitAccessRequest(formData);
       router.push("/demande-acces/confirmation");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      setError(err instanceof Error ? err.message : t("genericError"));
     }
     setLoading(false);
   }
 
   return (
-    <AuthLayout
-      title="Rejoindre le réseau"
-      subtitle="Votre demande sera examinée sous 48h."
-    >
+    <AuthLayout title={t("title")} subtitle={t("subtitle")}>
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && <Alert variant="error">{error}</Alert>}
 
         <div className="grid grid-cols-2 gap-3">
-          <Input id="full_name" name="full_name" label="Nom complet" required placeholder="Prénom et nom" />
-          <Input id="email" name="email" type="email" label="Email" required placeholder="email@exemple.com" />
+          <Input id="full_name" name="full_name" label={t("fullName")} required placeholder={t("fullNamePlaceholder")} />
+          <Input id="email" name="email" type="email" label={t("email")} required placeholder={t("emailPlaceholder")} />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <Input id="phone" name="phone" type="tel" label="Téléphone" required placeholder="+225 XX XX XX XX XX" />
-          <Input id="company" name="company" label="Structure / Organisation" placeholder="Nom du fonds ou de la structure" />
+          <Input id="phone" name="phone" type="tel" label={t("phone")} required placeholder={t("phonePlaceholder")} />
+          <Input id="company" name="company" label={t("company")} placeholder={t("companyPlaceholder")} />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <Input id="country" name="country" label="Pays de résidence" defaultValue="Côte d'Ivoire" />
+          <Input id="country" name="country" label={t("country")} defaultValue="Côte d'Ivoire" />
           <Select
             id="investor_type"
             name="investor_type"
-            label="Type d'investisseur"
-            placeholder="Sélectionnez un type"
+            label={t("investorType")}
+            placeholder={t("investorTypePlaceholder")}
             options={[
-              { value: "pe-vc", label: "Private Equity / VC" },
-              { value: "family-office", label: "Family Office" },
-              { value: "business-angel", label: "Business Angel" },
-              { value: "diaspora", label: "Investisseur Diaspora" },
-              { value: "impact", label: "Impact Investor" },
-              { value: "institutionnel", label: "Institutionnel" },
-              { value: "autre", label: "Autre" },
+              { value: "pe-vc", label: t("investorTypes.peVc") },
+              { value: "family-office", label: t("investorTypes.familyOffice") },
+              { value: "business-angel", label: t("investorTypes.businessAngel") },
+              { value: "diaspora", label: t("investorTypes.diaspora") },
+              { value: "impact", label: t("investorTypes.impact") },
+              { value: "institutionnel", label: t("investorTypes.institutional") },
+              { value: "autre", label: t("investorTypes.other") },
             ]}
           />
         </div>
 
         {/* Sectors of interest */}
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-text">Secteurs d&apos;intérêt</label>
+          <label className="block text-sm font-medium text-text">{t("sectorsLabel")}</label>
           <div className="flex flex-wrap gap-2">
-            {SECTORS.map((sector) => (
-              <button
-                key={sector}
-                type="button"
-                onClick={() => toggleSector(sector)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
-                  selectedSectors.includes(sector)
-                    ? "border-terracotta bg-terracotta/10 text-terracotta"
-                    : "border-gray-200 text-text-soft hover:border-gray-300"
-                }`}
-              >
-                {sector}
-              </button>
-            ))}
+            {SECTOR_KEYS.map((key) => {
+              const value = SECTOR_VALUES[key];
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => toggleSector(value)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
+                    selectedSectors.includes(value)
+                      ? "border-terracotta bg-terracotta/10 text-terracotta"
+                      : "border-gray-200 text-text-soft hover:border-gray-300"
+                  }`}
+                >
+                  {t(`sectors.${key}`)}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -115,26 +120,26 @@ export default function DemandeAccesPage() {
           <Select
             id="ticket_min"
             name="ticket_min"
-            label="Ticket minimum (FCFA)"
-            placeholder="Sélectionnez"
+            label={t("ticketMin")}
+            placeholder={t("ticketMinPlaceholder")}
             options={[
-              { value: "< 25M", label: "< 25 millions" },
-              { value: "25-50M", label: "25 - 50 millions" },
-              { value: "50-100M", label: "50 - 100 millions" },
-              { value: "100-500M", label: "100 - 500 millions" },
-              { value: "> 500M", label: "> 500 millions" },
+              { value: "< 25M", label: t("ticketMins.lt25") },
+              { value: "25-50M", label: t("ticketMins.b25_50") },
+              { value: "50-100M", label: t("ticketMins.b50_100") },
+              { value: "100-500M", label: t("ticketMins.b100_500") },
+              { value: "> 500M", label: t("ticketMins.gt500") },
             ]}
           />
           <Select
             id="preferred_deal_type"
             name="preferred_deal_type"
-            label="Type de financement préféré"
-            placeholder="Sélectionnez"
+            label={t("dealType")}
+            placeholder={t("dealTypePlaceholder")}
             options={[
-              { value: "equity", label: "Equity" },
-              { value: "dette", label: "Dette" },
-              { value: "hybride", label: "Hybride" },
-              { value: "ouvert", label: "Ouvert à tout" },
+              { value: "equity", label: t("dealTypes.equity") },
+              { value: "dette", label: t("dealTypes.debt") },
+              { value: "hybride", label: t("dealTypes.hybrid") },
+              { value: "ouvert", label: t("dealTypes.open") },
             ]}
           />
         </div>
@@ -142,19 +147,19 @@ export default function DemandeAccesPage() {
         <Select
           id="referral_source"
           name="referral_source"
-          label="Comment avez-vous connu WINVA ?"
-          placeholder="Sélectionnez"
+          label={t("referralSource")}
+          placeholder={t("referralSourcePlaceholder")}
           options={[
-            { value: "bouche-a-oreille", label: "Bouche à oreille" },
-            { value: "linkedin", label: "LinkedIn" },
-            { value: "evenement", label: "Événement" },
-            { value: "partenaire", label: "Partenaire" },
-            { value: "autre", label: "Autre" },
+            { value: "bouche-a-oreille", label: t("referralSources.wordOfMouth") },
+            { value: "linkedin", label: t("referralSources.linkedin") },
+            { value: "evenement", label: t("referralSources.event") },
+            { value: "partenaire", label: t("referralSources.partner") },
+            { value: "autre", label: t("referralSources.other") },
           ]}
         />
 
         <Button type="submit" loading={loading} className="w-full">
-          Demander l&apos;accès
+          {t("submit")}
         </Button>
       </form>
     </AuthLayout>

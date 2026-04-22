@@ -1,0 +1,338 @@
+{
+  "common": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "signOut": "Sign out",
+    "required": "Required",
+    "select": "Select",
+    "other": "Other",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "company": "Organization",
+    "fullName": "Full name",
+    "password": "Password",
+    "emailPlaceholder": "your@email.com"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Access your investor space.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account yet?",
+      "createAccount": "Create an account",
+      "invalidCredentials": "Invalid email or password."
+    },
+    "register": {
+      "title": "Create an SME account",
+      "subtitle": "Submit your company for WINVA funding.",
+      "investorBannerLead": "Are you an investor?",
+      "investorBannerLink": "Request access to the network →",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "First and last name",
+      "companyLabel": "Company name",
+      "companyPlaceholder": "e.g. My Startup Ltd.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "passwordMinError": "Password must be at least 8 characters.",
+      "submit": "Create my account",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "verifyEmail": {
+      "title": "Verify your email",
+      "subtitle": "A confirmation link has been sent.",
+      "body": "Check your inbox and click the confirmation link to activate your account.",
+      "checkSpam": "If you can't find the email, check your spam folder.",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email to receive a reset link.",
+      "successMessage": "A password reset email has been sent to",
+      "emailLabel": "Email",
+      "submit": "Send link",
+      "backToLogin": "Back to sign in"
+    },
+    "invitation": {
+      "verifying": "Verifying...",
+      "verifyingSubtitle": "Validating your invitation.",
+      "invalidLink": "Invalid invitation link.",
+      "expiredLink": "This invitation link is invalid or has expired.",
+      "invalidTitle": "Invalid invitation",
+      "noLongerValid": "This link is no longer valid.",
+      "title": "Create your account",
+      "subtitle": "Welcome {name}, finalize your access to WINVA.",
+      "emailLabel": "Email",
+      "passwordLabel": "Choose a password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "passwordMinError": "Password must be at least 8 characters.",
+      "submit": "Create my account",
+      "genericError": "An error occurred"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your activity on WINVA.",
+    "activeDeals": "Active deals",
+    "activeDealsHint": "Available opportunities",
+    "myInterests": "My interests",
+    "myInterestsHint": "Expressions sent",
+    "signedNdas": "Signed NDAs",
+    "signedNdasHint": "Dataroom access unlocked",
+    "recentDeals": "Recent deals",
+    "viewAllDeals": "View all deals →",
+    "noActiveDeals": "No active deals at the moment.",
+    "noActiveDealsHint": "Opportunities will appear here as soon as they are published.",
+    "greeting": "Hello,",
+    "nav": {
+      "dashboard": "Dashboard",
+      "deals": "Deals",
+      "interests": "My interests",
+      "profile": "My profile"
+    }
+  },
+  "deals": {
+    "listTitle": "Investment opportunities",
+    "countOne": "{count} active deal available",
+    "countOther": "{count} active deals available",
+    "searchPlaceholder": "Search a deal...",
+    "noMatch": "No deal matches your criteria.",
+    "resetFilters": "Reset filters",
+    "viewDetail": "View detail",
+    "countryLabel": "Country",
+    "revenueLabel": "Indicative revenue",
+    "ticketLabel": "Ticket",
+    "typeLabel": "Type",
+    "description": "Description",
+    "backToDeals": "Back to deals",
+    "badges": {
+      "equity": "Equity",
+      "mezzanine": "Mezzanine",
+      "debt": "Debt"
+    },
+    "restrictedTitle": "Restricted access",
+    "restrictedBody": "Sign the NDA to access detailed information and the dataroom for this deal.",
+    "signNda": "Sign the NDA",
+    "ndaSigned": "NDA signed — You have access to full information for this deal.",
+    "expressInterestTitle": "Express your interest",
+    "dealDeleted": "Deleted deal"
+  },
+  "interests": {
+    "title": "My expressions of interest",
+    "subtitle": "Track the status of your requests.",
+    "empty": "You haven't expressed any interest yet.",
+    "discoverDeals": "Discover deals →",
+    "status": {
+      "pending": "Pending",
+      "reviewed": "Under review",
+      "accepted": "Accepted",
+      "rejected": "Declined"
+    }
+  },
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Your personal information.",
+    "email": "Email",
+    "structure": "Organization",
+    "country": "Country",
+    "phone": "Phone",
+    "memberSince": "Member since {date}",
+    "roles": {
+      "admin": "WINVA Administrator",
+      "investor": "Investor",
+      "sme": "SME / Entrepreneur"
+    },
+    "statuses": {
+      "pending": "Awaiting validation",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "accessRequest": {
+    "title": "Join the network",
+    "subtitle": "Your request will be reviewed within 48h.",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "First and last name",
+    "email": "Email",
+    "emailPlaceholder": "email@example.com",
+    "phone": "Phone",
+    "phonePlaceholder": "+225 XX XX XX XX XX",
+    "company": "Organization",
+    "companyPlaceholder": "Fund or organization name",
+    "country": "Country of residence",
+    "investorType": "Investor type",
+    "investorTypePlaceholder": "Select a type",
+    "investorTypes": {
+      "peVc": "Private Equity / VC",
+      "familyOffice": "Family Office",
+      "businessAngel": "Business Angel",
+      "diaspora": "Diaspora Investor",
+      "impact": "Impact Investor",
+      "institutional": "Institutional",
+      "other": "Other"
+    },
+    "sectorsLabel": "Sectors of interest",
+    "sectors": {
+      "agro": "Agriculture / Agro",
+      "industry": "Industry / Construction",
+      "services": "Services",
+      "tech": "Technology",
+      "commerce": "Commerce",
+      "all": "All sectors"
+    },
+    "ticketMin": "Minimum ticket (FCFA)",
+    "ticketMinPlaceholder": "Select",
+    "ticketMins": {
+      "lt25": "< 25 million",
+      "b25_50": "25 - 50 million",
+      "b50_100": "50 - 100 million",
+      "b100_500": "100 - 500 million",
+      "gt500": "> 500 million"
+    },
+    "dealType": "Preferred financing type",
+    "dealTypePlaceholder": "Select",
+    "dealTypes": {
+      "equity": "Equity",
+      "debt": "Debt",
+      "hybrid": "Hybrid",
+      "open": "Open to anything"
+    },
+    "referralSource": "How did you hear about WINVA?",
+    "referralSourcePlaceholder": "Select",
+    "referralSources": {
+      "wordOfMouth": "Word of mouth",
+      "linkedin": "LinkedIn",
+      "event": "Event",
+      "partner": "Partner",
+      "other": "Other"
+    },
+    "submit": "Request access",
+    "genericError": "An error occurred",
+    "confirmationTitle": "Request sent",
+    "confirmationSubtitle": "We have received your request.",
+    "confirmationHeading": "Access request recorded",
+    "confirmationBody": "Your request will be reviewed by our team within <strong>48 hours</strong>. If your profile is selected, you will receive an invitation email with a link to create your account.",
+    "processTitle": "Admission process:",
+    "processStep1": "1. Review of your investor profile",
+    "processStep2": "2. Validation by the WINVA team",
+    "processStep3": "3. Sending of your invitation link",
+    "processStep4": "4. Account creation and deal flow access",
+    "alreadyAccount": "Already have an account? Sign in"
+  },
+  "application": {
+    "title": "SME Application",
+    "subtitle": "Submit your company to access funding.",
+    "companyName": "Company name",
+    "companyNamePlaceholder": "e.g. My Startup Ltd.",
+    "sector": "Sector",
+    "sectorPlaceholder": "Select...",
+    "sectors": {
+      "agroIndustry": "Agribusiness",
+      "fintech": "Fintech",
+      "health": "Healthcare",
+      "realEstate": "Real estate",
+      "transport": "Transport & Logistics",
+      "energy": "Energy",
+      "education": "Education",
+      "commerce": "Commerce",
+      "industry": "Industry",
+      "other": "Other"
+    },
+    "country": "Country",
+    "revenue": "Revenue",
+    "revenuePlaceholder": "e.g. 500M FCFA",
+    "fundingNeed": "Funding need",
+    "fundingNeedPlaceholder": "e.g. 200M - 500M FCFA",
+    "contactName": "Contact name",
+    "contactNamePlaceholder": "First and last name",
+    "contactEmail": "Email",
+    "contactEmailPlaceholder": "contact@company.com",
+    "contactPhone": "Phone",
+    "contactPhonePlaceholder": "+225 XX XX XX XX",
+    "description": "Company description",
+    "descriptionPlaceholder": "Describe your business, history, and funding project...",
+    "submit": "Submit my application",
+    "genericError": "An error occurred",
+    "confirmationTitle": "Application sent",
+    "confirmationSubtitle": "Thank you for your submission.",
+    "confirmationHeading": "Your application has been received",
+    "confirmationBody": "The WINVA team will review your file as soon as possible. You will receive a confirmation email at the provided address.",
+    "nextStepsTitle": "Next steps:",
+    "nextStep1": "1. Review of your file by our team",
+    "nextStep2": "2. Preliminary interview if eligible",
+    "nextStep3": "3. Funding preparation",
+    "nextStep4": "4. Introduction to our investors",
+    "signIn": "Sign in",
+    "createAccount": "Create an account"
+  },
+  "authLayout": {
+    "tagline1": "Private capital for",
+    "tagline2": "entrepreneurial Africa",
+    "description": "Access exclusive investment opportunities in the most promising African SMEs.",
+    "footer": "© {year} WINVA — A DARHAN brand"
+  },
+  "adminLayout": {
+    "administration": "Administration",
+    "adminLabel": "Admin —",
+    "investorSpace": "Investor space",
+    "signOut": "Sign out",
+    "nav": {
+      "dashboard": "Dashboard",
+      "deals": "Deals",
+      "investors": "Investors",
+      "applications": "SME Applications"
+    }
+  },
+  "dashboardLayout": {
+    "greeting": "Hello,",
+    "signOut": "Sign out",
+    "footer": "© {year} WINVA — DARHAN"
+  },
+  "nda": {
+    "title": "Non-Disclosure Agreement",
+    "introLead": "To access detailed information about the deal",
+    "introTail": ", you must accept the non-disclosure agreement (NDA) and provide proof of identity.",
+    "commitmentsTitle": "By clicking \"I accept\", you commit to:",
+    "commitment1": "Not disclosing confidential information received.",
+    "commitment2": "Using this information only to evaluate the opportunity.",
+    "commitment3": "Not contacting the target company directly without WINVA's approval.",
+    "commitment4": "Returning or destroying all confidential documents upon request.",
+    "kycTitle": "Proof of identity (KYC)",
+    "kycHelp": "Individuals: national ID or passport. Entities: trade registry or legal representative's ID.",
+    "kycTypePlaceholder": "Document type...",
+    "kycTypes": {
+      "cni": "National ID card",
+      "passport": "Passport",
+      "rccm": "Trade registry (RCCM)",
+      "statutes": "Company bylaws",
+      "other": "Other proof"
+    },
+    "fileHint": "Click to attach your document (PDF, JPG, PNG)",
+    "errorType": "Please select the document type.",
+    "errorFile": "Please attach your identity document.",
+    "errorGeneric": "An error occurred. Please try again.",
+    "disclaimer": "Your acceptance and document will be timestamped and recorded.",
+    "cancel": "Cancel",
+    "accept": "I accept the NDA"
+  },
+  "eoi": {
+    "successSent": "Your expression of interest has been sent. The WINVA team will contact you shortly.",
+    "messageLabel": "Message (optional)",
+    "messagePlaceholder": "Specify your interest, questions, or amount considered...",
+    "submit": "Express my interest"
+  },
+  "dataroom": {
+    "emptyTitle": "No documents in the dataroom at the moment.",
+    "emptyHint": "Documents will be added by the WINVA team.",
+    "headingOne": "Dataroom — {count} document",
+    "headingOther": "Dataroom — {count} documents"
+  }
+}

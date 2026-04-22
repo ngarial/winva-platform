@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,8 @@ import { Alert } from "@/components/ui/alert";
 import { createClient } from "@/lib/supabase/client";
 
 export default function ResetPasswordPage() {
+  const t = useTranslations("auth.resetPassword");
+  const tc = useTranslations("common");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -35,21 +38,18 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <AuthLayout
-      title="Mot de passe oublié"
-      subtitle="Entrez votre email pour recevoir un lien de réinitialisation."
-    >
+    <AuthLayout title={t("title")} subtitle={t("subtitle")}>
       {success ? (
         <div className="space-y-6">
           <Alert variant="success">
-            Un email de réinitialisation a été envoyé à <strong>{email}</strong>.
+            {t("successMessage")} <strong>{email}</strong>.
           </Alert>
           <p className="text-center text-sm text-text-soft">
             <Link
               href="/login"
               className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
             >
-              Retour à la connexion
+              {t("backToLogin")}
             </Link>
           </p>
         </div>
@@ -60,9 +60,9 @@ export default function ResetPasswordPage() {
 
             <Input
               id="email"
-              label="Email"
+              label={t("emailLabel")}
               type="email"
-              placeholder="votre@email.com"
+              placeholder={tc("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -70,7 +70,7 @@ export default function ResetPasswordPage() {
             />
 
             <Button type="submit" loading={loading} className="w-full">
-              Envoyer le lien
+              {t("submit")}
             </Button>
           </form>
 
@@ -79,7 +79,7 @@ export default function ResetPasswordPage() {
               href="/login"
               className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
             >
-              Retour à la connexion
+              {t("backToLogin")}
             </Link>
           </p>
         </>

@@ -2,16 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { LangSwitcher } from "./lang-switcher";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
   userName: string;
 }
 
-const navItems = [
+type AdminNavItem = {
+  href: string;
+  labelKey: "dashboard" | "deals" | "investors" | "applications";
+  exact?: boolean;
+  icon: React.ReactElement;
+};
+
+const navItems: AdminNavItem[] = [
   {
     href: "/admin",
-    label: "Dashboard",
+    labelKey: "dashboard",
     exact: true,
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -21,7 +30,7 @@ const navItems = [
   },
   {
     href: "/admin/deals",
-    label: "Deals",
+    labelKey: "deals",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -30,7 +39,7 @@ const navItems = [
   },
   {
     href: "/admin/investors",
-    label: "Investisseurs",
+    labelKey: "investors",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -39,7 +48,7 @@ const navItems = [
   },
   {
     href: "/admin/applications",
-    label: "Candidatures PME",
+    labelKey: "applications",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -50,6 +59,8 @@ const navItems = [
 
 export function AdminLayout({ children, userName }: AdminLayoutProps) {
   const pathname = usePathname();
+  const t = useTranslations("adminLayout");
+  const tn = useTranslations("adminLayout.nav");
 
   return (
     <div className="min-h-screen bg-midnight flex">
@@ -63,7 +74,7 @@ export function AdminLayout({ children, userName }: AdminLayoutProps) {
             </svg>
             <div>
               <span className="font-body font-bold text-lg text-white block leading-tight tracking-wide">WINVA</span>
-              <span className="text-xs text-terracotta font-medium">Administration</span>
+              <span className="text-xs text-terracotta font-medium">{t("administration")}</span>
             </div>
           </div>
         </div>
@@ -83,7 +94,7 @@ export function AdminLayout({ children, userName }: AdminLayoutProps) {
                 }`}
               >
                 {item.icon}
-                {item.label}
+                {tn(item.labelKey)}
               </Link>
             );
           })}
@@ -96,7 +107,7 @@ export function AdminLayout({ children, userName }: AdminLayoutProps) {
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Espace investisseur
+            {t("investorSpace")}
           </Link>
         </div>
       </aside>
@@ -106,16 +117,19 @@ export function AdminLayout({ children, userName }: AdminLayoutProps) {
         <header className="bg-midnight-soft border-b border-midnight-elev sticky top-0 z-20">
           <div className="px-6 py-4 flex items-center justify-between">
             <h2 className="text-sm text-gray-400">
-              Admin — <span className="font-medium text-white">{userName}</span>
+              {t("adminLabel")} <span className="font-medium text-white">{userName}</span>
             </h2>
-            <form action="/auth/signout" method="post">
-              <button
-                type="submit"
-                className="text-sm text-gray-500 hover:text-terracotta transition-colors cursor-pointer"
-              >
-                Déconnexion
-              </button>
-            </form>
+            <div className="flex items-center gap-4">
+              <LangSwitcher />
+              <form action="/auth/signout" method="post">
+                <button
+                  type="submit"
+                  className="text-sm text-gray-500 hover:text-terracotta transition-colors cursor-pointer"
+                >
+                  {t("signOut")}
+                </button>
+              </form>
+            </div>
           </div>
         </header>
 

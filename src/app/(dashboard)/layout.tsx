@@ -16,7 +16,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     .eq("id", user.id)
     .single();
 
-  const userName = profile?.full_name || user.email || "Investisseur";
+  const userName = profile?.full_name || user.email || "";
 
   return <DashboardLayout userName={userName}>{children}</DashboardLayout>;
 }

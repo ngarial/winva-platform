@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
@@ -34,6 +35,7 @@ export function DealDetailClient({
   hasSentEOI: initialEOI,
   dataroomFiles,
 }: DealDetailClientProps) {
+  const t = useTranslations("deals");
   const router = useRouter();
   const [hasSignedNDA, setHasSignedNDA] = useState(initialNDA);
   const [showNdaModal, setShowNdaModal] = useState(false);
@@ -61,21 +63,19 @@ export function DealDetailClient({
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex-1">
               <h3 className="font-display text-lg font-semibold text-midnight">
-                Accès restreint
+                {t("restrictedTitle")}
               </h3>
               <p className="text-sm text-text-soft mt-1">
-                Signez le NDA pour accéder aux informations détaillées et à la dataroom de ce deal.
+                {t("restrictedBody")}
               </p>
             </div>
             <Button onClick={() => setShowNdaModal(true)}>
-              Signer le NDA
+              {t("signNda")}
             </Button>
           </div>
         </Card>
       ) : (
-        <Alert variant="success">
-          NDA signé — Vous avez accès aux informations complètes de ce deal.
-        </Alert>
+        <Alert variant="success">{t("ndaSigned")}</Alert>
       )}
 
       {/* Dataroom */}
@@ -85,7 +85,7 @@ export function DealDetailClient({
       {hasSignedNDA && (
         <Card>
           <h2 className="font-display text-lg font-semibold text-midnight mb-4">
-            Exprimer votre intérêt
+            {t("expressInterestTitle")}
           </h2>
           <EoiForm onSubmit={handleSubmitEOI} alreadySent={initialEOI} />
         </Card>

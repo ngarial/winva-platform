@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,8 @@ import { Alert } from "@/components/ui/alert";
 import { createClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
+  const t = useTranslations("auth.register");
+  const tc = useTranslations("common");
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,7 +26,7 @@ export default function RegisterPage() {
     setError("");
 
     if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      setError(t("passwordMinError"));
       return;
     }
 
@@ -53,25 +56,22 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthLayout
-      title="Créer un compte PME"
-      subtitle="Soumettez votre entreprise au financement WINVA."
-    >
+    <AuthLayout title={t("title")} subtitle={t("subtitle")}>
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && <Alert variant="error">{error}</Alert>}
 
         <div className="bg-ivory-warm rounded-[var(--radius-md)] p-3 text-sm text-text-soft">
-          <strong className="text-text">Vous êtes investisseur ?</strong>{" "}
+          <strong className="text-text">{t("investorBannerLead")}</strong>{" "}
           <Link href="/demande-acces" className="text-terracotta hover:text-terracotta-dark font-medium">
-            Demandez l&apos;accès au réseau &rarr;
+            {t("investorBannerLink")}
           </Link>
         </div>
 
         <Input
           id="fullName"
-          label="Nom complet"
+          label={t("fullNameLabel")}
           type="text"
-          placeholder="Prénom Nom"
+          placeholder={t("fullNamePlaceholder")}
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           required
@@ -79,18 +79,18 @@ export default function RegisterPage() {
 
         <Input
           id="company"
-          label="Nom de l'entreprise"
+          label={t("companyLabel")}
           type="text"
-          placeholder="Ex: Ma Startup SARL"
+          placeholder={t("companyPlaceholder")}
           value={company}
           onChange={(e) => setCompany(e.target.value)}
         />
 
         <Input
           id="email"
-          label="Email"
+          label={t("emailLabel")}
           type="email"
-          placeholder="votre@email.com"
+          placeholder={tc("emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -99,9 +99,9 @@ export default function RegisterPage() {
 
         <Input
           id="password"
-          label="Mot de passe"
+          label={t("passwordLabel")}
           type="password"
-          placeholder="Minimum 8 caractères"
+          placeholder={t("passwordPlaceholder")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -110,17 +110,17 @@ export default function RegisterPage() {
         />
 
         <Button type="submit" loading={loading} className="w-full">
-          Créer mon compte
+          {t("submit")}
         </Button>
       </form>
 
       <p className="text-center text-sm text-text-soft">
-        Déjà un compte ?{" "}
+        {t("haveAccount")}{" "}
         <Link
           href="/login"
           className="text-terracotta hover:text-terracotta-dark font-medium transition-colors"
         >
-          Se connecter
+          {t("signIn")}
         </Link>
       </p>
     </AuthLayout>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getFileDownloadUrl } from "@/app/(dashboard)/deals/[id]/actions";
@@ -44,6 +45,9 @@ const iconColors: Record<string, string> = {
 };
 
 export function Dataroom({ files }: DataroomProps) {
+  const t = useTranslations("dataroom");
+  const locale = useLocale();
+  const dateLocale = locale === "en" ? "en-US" : "fr-FR";
   const [downloading, setDownloading] = useState<string | null>(null);
 
   async function handleDownload(file: DataroomFile) {
@@ -65,8 +69,8 @@ export function Dataroom({ files }: DataroomProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
           </svg>
         </div>
-        <p className="text-text-soft">Aucun document dans la dataroom pour le moment.</p>
-        <p className="text-xs text-gray-400 mt-1">Les documents seront ajoutés par l&apos;équipe WINVA.</p>
+        <p className="text-text-soft">{t("emptyTitle")}</p>
+        <p className="text-xs text-gray-400 mt-1">{t("emptyHint")}</p>
       </Card>
     );
   }
@@ -74,7 +78,9 @@ export function Dataroom({ files }: DataroomProps) {
   return (
     <Card>
       <h2 className="font-display text-lg font-semibold text-midnight mb-4">
-        Dataroom — {files.length} document{files.length > 1 ? "s" : ""}
+        {files.length > 1
+          ? t("headingOther", { count: files.length })
+          : t("headingOne", { count: files.length })}
       </h2>
       <div className="divide-y divide-gray-50">
         {files.map((file) => {
@@ -98,7 +104,7 @@ export function Dataroom({ files }: DataroomProps) {
                 <p className="text-xs text-gray-400">
                   {formatFileSize(file.file_size)}
                   {" · "}
-                  {new Date(file.created_at).toLocaleDateString("fr-FR", {
+                  {new Date(file.created_at).toLocaleDateString(dateLocale, {
                     day: "numeric",
                     month: "short",
                     year: "numeric",
